@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"
+            type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"
+            type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+
+	<title>NOVOCOM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+
+
+
+        ::-webkit-scrollbar { /* chrome based */
+            width: 0px;  /* ширина scrollbar'a */
+            background: transparent;  /* опционально */
+        }
+
+        html{
+            -ms-overflow-style: none;  /* IE 10+ */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        @font-face{
+            font-family: 'MontserratBold';
+            src:url(assets/fonts/Montserrat-Bold.woff);
+            font-weight: bold;
+        }@font-face{
+            font-family: 'MontserratRegular';
+            src:url(assets/fonts/Montserrat-Regular.woff);
+            font-weight: normal;
+        }
+
+
+        .app-header{
+            background:rgba(0, 183, 178, 1);
+            height: 90px;
+        }
+        header{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .logo{
+            display: flex;
+            align-items: center;
+        }
+        .header-center-list-item{
+            display:inline;
+            margin-right: 40px;
+        }
+        a{
+            color: white;
+        }
+        select{
+            border-color: #00BCD4;
+            margin-bottom: 10px;
+        }
+        .try{
+            background:rgba(229, 229, 229, 1);
+            width: 350px;
+            border-radius: 8px;
+
+        }.try{
+            background:rgba(229, 229, 229, 1);
+            width: 350px;
+            border-radius: 8px;
+
+        }
+        form{
+            padding-left: 80px;
+            background:rgba(229, 229, 229, 1);
+            width: 330px;
+            border-radius: 8px;
+        }
+
+        label{
+            color: #00BCD4;
+            font-family:'MontserratRegular' ;
+            border-radius:8px;margin: 0;
+
+        }
+        input{
+            border-color:#00BCD4 ;
+            border-radius:8px;
+            margin-bottom: 10px;
+        }
+        .header-right{
+            display: inline;
+        }
+        p{
+            font-family: 'MontserratBold';
+        }
+        a{
+            font-family: 'MontserratBold';
+            text-decoration: none;
+            color:white ;
+        }
+        a:hover{
+            text-decoration: none;
+            color:white ;
+        }
+        #mapContainer{
+            height: calc(100vh-90px);
+        }
+    </style>
+    <title>Title</title>
+</head>
+<body>
+<div class="container-fluid">
+    <header style="background: rgba(0, 183, 178, 1)" class="row app-header">
+
+            <div class="logo" >
+                <svg width="61" height="61" viewBox="0 0 61 61" fill="rgba(0, 183, 178, 1)" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0)">
+                    <path d="M42.3582 2.00799C37.0916 -0.0889034 33.2658 0 31.1884 0.331089C19.2296 2.24404 16.6192 17.7929 30.1101 24.6538C38.2643 28.7986 44.6153 30.5828 47.9721 37.5694C51.7705 45.4726 46.2632 53.1796 46.2632 53.1796C50.2292 41.1561 43.0527 35.0341 36.2661 32.1984C27.9657 28.725 23.5093 27.3884 18.5412 21.3215C10.984 9.53106 21.3558 0.576339 25.5745 0C22.0746 0.475173 18.8062 1.23852 14.1123 5.22691C11.4044 7.5292 8.50758 12.0694 9.13811 18.2252C10.0184 26.8059 14.7641 30.8771 27.0153 36.337C36.7017 40.6534 41.6698 42.6644 42.2516 48.7988C42.6598 53.0968 40.6859 57.4929 35.5381 59.599C34.2009 60.1478 32.1479 60.8896 30.5 61C47.3476 61 61.003 47.2568 61.003 30.3007C61 17.5783 53.4153 6.41331 42.3582 2.00799ZM49.3001 29.0683C44.2468 23.449 38.639 21.9745 35.8854 20.1106C33.2597 18.3356 31.7915 16.533 31.8494 13.6114C31.9164 10.227 36.3971 4.78546 45.2367 8.62057C54.2012 12.5109 62.325 27.3117 53.5555 44.5099C53.5555 44.513 55.4257 35.8833 49.3001 29.0683Z" fill="#FFFC0D"/>
+                    <path d="M36.3027 54.0042C37.4358 51.0459 37.7953 45.8251 30.5487 42.7135C23.8627 39.841 16.1044 36.5884 10.5454 31.1407C3.6522 24.3871 4.60561 16.6066 5.90931 12.3361C2.25406 17.3392 0.0700534 23.4981 -5.52443e-06 30.1689C-0.0274199 36.4198 1.82762 42.3303 4.98941 47.1372C4.98941 47.1372 4.98941 47.1372 4.99245 47.1372C6.82008 49.9331 8.41925 51.1256 8.93707 51.5977C12.9 55.1906 18.4529 56.0367 20.2105 54.8503C23.354 52.7289 21.7761 49.5591 18.2976 47.9496C15.0017 46.4229 11.91 44.5529 10.2103 43.1182C2.92419 36.9777 2.80844 31.3952 2.83586 28.863C4.56296 33.5595 8.03849 38.0537 12.571 40.8128C22.3061 46.7417 29.0562 47.4284 28.4774 52.8148C27.8804 58.339 19.8114 59.0472 14.7763 56.607C17.0091 57.962 19.4276 59.038 21.9863 59.786C22.1264 59.8228 22.2635 59.8688 22.4006 59.9025C30.0157 61.8737 34.9046 57.6523 36.3027 54.0042Z" fill="white"/>
+                    <g clip-path="url(#clip1)">
+                        <path d="M42.8267 10.764C38.2832 8.70444 33.9654 11.1198 35.2227 14.329C35.9455 16.1789 39.2807 17.4858 42.5971 19.3507C49.2374 23.0842 54.1273 28.2707 54.9969 34.0001C54.9931 34.0001 55.8062 16.6545 42.8267 10.764Z" fill="white"/>
+                    </g>
+                </g>
+                <defs>
+                    <clipPath id="clip0">
+                        <rect width="61" height="61" fill="white"/>
+                    </clipPath>
+                    <clipPath id="clip1">
+                        <rect x="35" y="10" width="20" height="24" fill="white"/>
+                    </clipPath>
+                </defs>
+            </svg>
+
+                <img style="margin-left: 10px;margin-top: 10px" src="assets/image/NOVOCOM.png">
+            </div>
+            <div class="header-center">
+                <ul style="margin: 0" class="header-center-list">
+                    <li class="header-center-list-item"><a href="#">О проекте</a> </li>
+                    <li  class="header-center-list-item"><a href="#">FAQ</a> </li>
+                    <li  class="header-center-list-item"><a href="#">Контакты</a> </li>
+                </ul>
+            </div>
+        <div style="align-items: center" class="header-right">
+           <img style="display: inline" src="assets/image/pointer.png">
+            <p style="display: inline; color:white;margin-left: 10px">Новороссийск</p>
+        </div>
+
+    </header>
+    <div class="row map">
+
+        <div   class="col-sm">
+            <div style="position: fixed;overflow: auto;height: 80vh;z-index: 10;left: 100px;top: 90px;display: none;padding-top: 18px;padding-bottom: 18px;margin-top: 5px" id="tes" class="try">
+                <div style="display: flex;justify-content: space-around">
+                    <img style="display: inline" src="assets/image/Frame.png">
+                    <p style="margin-bottom: 15px;display: inline;">Добавить устройство</p>
+                    <a onclick="hide()" href="#"><img src="assets/image/exit.png"></a>
+                </div>
+
+                <form  id="form" >
+
+                                <label for="ftype">Тип устройства:</label><br>
+                                <select  style="width: 182px;border-radius:8px" id="ftype" name="ftype">
+                                    <option>Выберите</option>
+                                    <option>provider_server</option>
+                                    <option>raion_commutator</option>
+                                    <option>house_commutator</option>
+                                   <!-- <option>home_router</option> -->
+                                </select><br>
+<!--                                <input type="text" id="ftype" name="ftype"><br>-->
+
+                               <label for="connect_id">ID вышестоящего устройства:</label><br>
+                                <input type="text" id="connect_id" name="connect_id"><br>
+
+<!--                              <label for="id">id:</label><br>-->
+<!--                                <input type="text" id="id" name="id"><br>-->
+
+                             <label for="inf_count">Количество переданной информации:</label><br>
+                              <input type="text" id="inf_count" name="inf_count"><br>
+
+                          <label for="lat">Широта:</label><br>
+                           <input type="text" id="lat" name="lat"><br>
+
+                           <label for="lng">Долгота:</label><br>
+                             <input type="text" id="lng" name="lng"><br>
+
+                         <label for="model">Модель роутера:</label><br>
+                          <input type="text" id="model" name="model"><br>
+
+                           <label for="on_off">вкл/выкл:</label><br>
+                    <select  style="width: 182px;border-radius:8px" id="on_off" name="on_off">
+                        <option>Выберите</option>
+                        <option>1</option>
+                        <option>0</option>
+                    </select><br>
+				            <label for="smotr">Ответственный:</label><br>
+                          <input type="text" id="smotr" name="smotr"><br>
+
+						  <!--
+						  <label for="cabelType">Тип кабеля:</label><br>
+                          <input type="text" id="cabelType" name="cabelType"><br>
+							-->
+						  <label for="cabelType">Тип кабеля:</label><br>
+							<select  style="width: 182px;border-radius:8px" id="cabelType" name="cabelType">
+								<option>Выберите</option>
+								<option>Беспроводное подключение</option>
+								<option>Витая пара</option>
+								<option>Оптоволокно</option>
+							</select><br>
+
+						  <label for="connectType">Тип соединения:</label><br>
+                          <input type="text" id="connectType" name="connectType"><br>
+
+
+                           </form>
+                <div style="padding-left: 95px" >
+                    <a onclick="addNewObjectOnMap()" style="padding: 4px;background: rgb(92 ,92, 92);border-radius: 9px" href="#">Отправить <img style="margin-left: 5px;margin-right: 5px" src="assets/image/Vector.png"></a>
+
+
+                </div>
+
+            </div>
+            <a onclick="show()" id="add-button" style="" href="#"><img  style="position: fixed;top: 120px;left: 105px;z-index: 10;" src="assets/image/Button_add.png"></a>
+
+            <div style="width: 100%; height:  630px;" id="mapContainer"></div>
+
+            <div style=" padding-left: 10px;background:rgba(229, 229, 229, 1);;width: 400px;position: fixed;z-index: 10;right: 600px;top: 10px;display: none;padding-top: 18px;padding-bottom: 18px;margin-top: 5px;border-radius: 9px" id="panel" class="panel panel-default">
+
+				<table  id="myTable1">
+                    <div style="display: flex;justify-content: space-around">
+                        <img style="width: 40px;height: 50px" src="assets/image/building-regular%201.png">
+                        <p style="text-align: center">Список устройств в доме<br> по адресу:</p>
+                        <a onclick="document.getElementById('panel').style.display='none'"><img src="assets/image/exit.png"></a>
+                    </div>
+				<thead >
+                <tr><th style="width: 10%;border-bottom: 1px solid black;border-right: 1px solid black">Pwr</th><th style="width: 10%;border-bottom: 1px solid black;border-right: 1px solid black;text-align: center;">ID</th><th style="border-bottom: 1px solid black;">Модель</th></tr>
+                </thead> <!--ряд с ячейками заголовков-->
+                    <tbody id="clientList">
+
+                    </tbody>
+
+                </table>
+            </div>
+
+
+            <div style="position: fixed;z-index: 10;right: 100px;top: 10px;display: block;padding-top: 18px;padding-bottom: 18px;margin-top: 5px" id="form22" class="form2">
+<!--                <div style="display: flex;justify-content: space-around">-->
+<!--                    <img style="display: inline" src="assets/image/Group%201.png">-->
+<!--                    <p style="margin-bottom: 15px;display: inline;">Изменить данные</p>-->
+<!--                    <a onclick="hide()" href="#"><img src="assets/image/exit.png"></a>-->
+<!--                </div>-->
+                <form style="display: none;overflow: auto;height: 80vh;padding-bottom: 18px;padding-top: 18px" class="form-2" id="form2" >
+                    <div style="display: flex;justify-content: space-around;margin-left: -80px">
+                        <img style="display: inline" src="assets/image/Group%201.png">
+                        <p style="margin-bottom: 15px;display: inline;">Изменить данные</p>
+                        <a onclick="hide2()" href="#"><img src="assets/image/exit.png"></a>
+                    </div>
+                    <label for="ftype2">Тип устройства:</label><br>
+                    <select  style="width: 182px;border-radius:8px" id="ftype2" name="ftype2">
+                        <option>Выберите</option>
+                        <option>provider_server</option>
+                        <option>raion_commutator</option>
+                        <option>house_commutator</option>
+                       <!-- <option>home_router</option> -->
+                    </select><br>
+
+
+                    <label for="connect_id2">ID вышестоящего устройства:</label><br>
+                    <input type="text" id="connect_id2" name="connect_id2"><br>
+
+                    <label for="id2">ID редактируемого устройства:</label><br>
+                    <input type="text" id="id2" name="id2"><br>
+
+                    <label for="inf_count2">Количество переданной информации:</label><br>
+                    <input type="text" id="inf_count2" name="inf_count2"><br>
+
+                    <label for="lat2">Широта:</label><br>
+                    <input type="text" id="lat2" name="lat2"><br>
+
+                    <label for="lng2">Долгота:</label><br>
+                    <input type="text" id="lng2" name="lng2"><br>
+
+                    <label for="model2">Модель роутера:</label><br>
+                    <input type="text" id="model2" name="model2"><br>
+
+                    <label for="on_off2">вкл/выкл:</label><br>
+                    <select  style="width: 182px;border-radius:8px" id="on_off2" name="on_off2">
+                        <option>Выберите</option>
+                        <option>1</option>
+                        <option>0</option>
+                    </select><br>
+<!--                    <input type="text" id="on_off2" name="on_off2"><br>-->
+
+                    <label for="smotr2">Ответственный:</label><br>
+                    <input type="text" id="smotr2" name="smotr2"><br>
+
+					<!--<label for="cabelType2">Тип кабеля:</label><br>
+                    <input type="text" id="cabelType2" name="cabelType2"><br>
+					-->
+					<label for="cabelType2">Тип кабеля:</label><br>
+                    <select  style="width: 182px;border-radius:8px" id="cabelType2" name="cabelType2">
+                        <option>Выберите</option>
+                        <option>Беспроводное подключение</option>
+                        <option>Витая пара</option>
+						<option>Оптоволокно</option>
+                    </select><br>
+
+					<label for="connectType2">Тип соединения:</label><br>
+                    <input type="text" id="connectType2" name="connectType2"><br>
+
+                    <div style="margin-left: -30px;" >
+                        <a onclick="updateObjectOnMap()" style="padding: 4px;background: rgb(92 ,92, 92);border-radius: 9px" href="#">Изменить <img style="margin-left: 5px;margin-right: 5px" src="assets/image/pencil-alt-solid%201.png"></a>
+                        <a onclick="deleteObjectOnMap()" style="padding: 4px;background: rgb(92 ,92, 92);border-radius: 9px" href="#">Удалить <img style="margin-left: 5px;margin-right: 5px" src="assets/image/Vector%20(1).png"></a>
+
+						<a href="#" style="padding: 4px;background: rgb(92 ,92, 92);border-radius: 9px" onclick="disableRouter()">Power</a>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-6">
+
+        </div>
+    </div>
+</div>
+
+<script>
+function hide() {
+    document.getElementById('tes').style.display = "none";
+    document.getElementById('add-button').style.display = "block";
+}
+function hide2() {
+    document.getElementById('form2').style.display = "none";
+    //document.getElementById('add-button').style.display = "block";
+}
+
+function est(id) {
+    var x = document.getElementById(id);
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+function show() {
+    let x = document.getElementById('tes');
+    let y = document.getElementById('add-button');
+    if (x.style.display === "none") {
+        x.style.display = "block";
+        y.style.display = "none";
+    } else {
+        x.style.display = "none";
+        ;
+    }
+}
+window.addEventListener('resize', () => map.getViewPort().resize());
+
+</script>
+<script src="assets/js/index.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
